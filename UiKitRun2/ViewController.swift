@@ -9,9 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     lazy var firstButton: UIButton = CustomButton()
-
     lazy var secondButton: UIButton = CustomButton()
-
     lazy var thirdButton: UIButton = CustomButton()
 
     override func viewDidLoad() {
@@ -42,15 +40,8 @@ class ViewController: UIViewController {
     }
 
     @objc private func thirdButtonTapped() {
-        for item in [firstButton, secondButton, thirdButton] {
-            item.backgroundColor = .systemGray2
-            item.imageView?.tintColor = .systemGray3
-            item.titleLabel?.textColor = .systemGray3
-        }
-
-        let modalViewController = UIViewController()
-        modalViewController.view.backgroundColor = .white
-
+        let modalViewController = ModalViewController()
+        modalViewController.modalPresentationStyle = .formSheet
         present(modalViewController, animated: true)
     }
 }
@@ -66,6 +57,21 @@ class CustomButton: UIButton {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+
+        switch tintAdjustmentMode {
+            case .dimmed:
+                backgroundColor = .systemGray2
+                imageView?.tintColor = .systemGray3
+                titleLabel?.textColor = .systemGray3
+            default:
+                backgroundColor = .systemBlue
+                imageView?.tintColor = .white
+                titleLabel?.textColor = .white
+        }
     }
 
     func setup() {
